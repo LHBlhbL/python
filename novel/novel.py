@@ -1,5 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
+from multiprocessing import Pool
+import time
 
 
 headers = {
@@ -32,12 +34,18 @@ def main(page):
     del test[0:i-1]
     i = 0
     newurl = 'http://www.paoshu8.com'
+    url_list = []
     for item in test:
-        novel_request(newurl+item.get('href'))
+        url_list.append(newurl+item.get('href'))
         i += 1
         if(i == page):
             break
+    return url_list
 
 
 if __name__ == "__main__":
-    main(10)
+    url_list = main(20)
+    pool = Pool(4)
+    pool.map(novel_request, url_list)
+    pool.close()
+    pool.join()
