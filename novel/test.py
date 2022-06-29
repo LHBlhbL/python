@@ -1,4 +1,4 @@
-from asyncio.windows_events import NULL
+
 from hashlib import new
 from urllib.parse import urlencode
 import requests
@@ -34,19 +34,6 @@ def novel_request(url,preText):
         else:
             newUrl=""
 
-
-def main():
-    url = 'https://www.husttest.com/xiaoshuo/94361240/'
-    html = requests.get(url, headers=headers).content.decode('utf-8')
-    section = BeautifulSoup(html, 'html.parser')
-    i = 0
-    test = section.find(id='list').find_all('a')
-    url_list = []
-    newUrl="https://www.husttest.com"
-    for item in test:
-        url=item.get('href')
-        url_list.append(newUrl+url)
-    print(url_list)
     
 
 if __name__ == "__main__":
