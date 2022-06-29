@@ -13,24 +13,26 @@ headers = {
 
 
 def novel_request(url,preText):
-    html = requests.get(url, headers=headers).content.decode('utf-8')
-    soup = BeautifulSoup(html, 'html.parser')
+    newUrl=url
     novel_text=preText
-    # novel_H = soup.find('h1').text+'\n'
-    list1 = soup.find(id='booktxt')
-    list2 = list1.find_all('p')
-    for item in list2:
-        novel_text += item.text+'\n'
-    newItem=soup.find(id='next_url')
-    new=newItem.get('href')
-    newUrl = "https://www.husttest.com"+new
-    if newItem.text == '下一页':
-        novel_request(newUrl,novel_text)
-    elif newItem.text == '下一章':
-        with open('novel.txt', 'a', encoding='utf-8')as f:
-            f.write(novel_text)
-        novel_text=""
-        novel_request(newUrl,novel_text)
+    while newUrl != "":
+        html = requests.get(newUrl, headers=headers).content.decode('utf-8')
+        soup = BeautifulSoup(html, 'html.parser')
+        list1 = soup.find(id='booktxt')
+        list2 = list1.find_all('p')
+        for item in list2:
+            novel_text += item.text+'\n'
+        newItem=soup.find(id='next_url')
+        new=newItem.get('href')
+        newUrl = "https://www.husttest.com"+new
+        if newItem.text == '下一页':
+            continue
+        elif newItem.text == '下一章':
+            with open('novel3.txt', 'a', encoding='utf-8')as f:
+                f.write(novel_text)
+            novel_text=""
+        else:
+            newUrl=""
 
 
 def main():
