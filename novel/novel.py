@@ -12,7 +12,7 @@ headers = {
 def novel_request(url):
     html = requests.get(url, headers=headers).content.decode('utf-8')
     soup = BeautifulSoup(html, 'html.parser')
-    novel_text = soup.find('h1').text+'\n'
+    novel_text ='\n'+ soup.find('h1').text+'\n'
     list1 = soup.find(id='content')
     list2 = list1.find_all('p')
     for item in list2:
