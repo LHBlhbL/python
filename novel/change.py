@@ -86,25 +86,22 @@ headers_list = [
 
 
 
-def novel_request(url,fileName):
-    newUrl=url
-    while newUrl != "":
+def novel_request(fileName):
+    for i in range(400):
         headers = random.choice(headers_list)
+        item = i+1
+        newUrl = "https://www.trxs.cc/tongren/7599/"+item+".html"
         html = requests.get(newUrl, headers=headers).content
         soup = BeautifulSoup(html, 'html.parser')
         novel_text=""
         list3=soup.find(name='div',attrs={"class":"read_chapterDetail"})
-        urlList = soup.find(name='div',attrs={"class":"pageNav"})
         aList = list3.find_all('p')
         for li in aList:
             novel_text += (li.text+'\n')
-        newUrl='https://www.trxs.cc/'+urlList[3].get('href')
         with open(fileName, 'a', encoding='utf-8')as f:
             f.write(novel_text)
         
-        
 
 if __name__ == "__main__":
-    url=input("url:")
     fileName=input("fileName:")
-    novel_request(url,fileName)
+    novel_request(fileName)
